@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const { data, error } = await supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
                 // Successful login is handled by onAuthStateChange
+                window.location.href = 'dashboard.html'; /// ADDED THIS TO IMMEDIATELY LOG IN AFTER LOGGING IN
             } catch (error) {
                 console.error('Login error:', error.message);
                 errorMessageElem.textContent = `Login failed: ${error.message}`;
