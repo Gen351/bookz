@@ -1,21 +1,16 @@
 {
   "builds": [
-    // 1) Deploy all JS under /api as Node functions
     {
       "src": "api/**/*.js",
       "use": "@vercel/node"
     },
-    // 2) Deploy all other files (HTML, JS, CSS, assets) statically
     {
       "src": "**/*",
       "use": "@vercel/static"
     }
   ],
   "routes": [
-    // Requests to /api/* go to the matching function
     { "src": "/api/(.*)", "dest": "/api/config.js" },
-
-    // All other requests serve your root index.html
     { "src": "/(.*)",      "dest": "/index.html" }
   ]
 }
