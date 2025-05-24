@@ -146,6 +146,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
 
+// In the loadBooks function, update the book card creation logic
     // Function to load books
     async function loadBooks() {
         if (!bookListElem || !loadingMessageElem || !noBooksMessageElem) return;
@@ -160,7 +161,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .select('*')
                 .eq('user_id', currentUser.id);
 
-
             if (error) throw error;
 
             loadingMessageElem.style.display = 'none';
@@ -168,6 +168,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                 books.forEach(book => {
                     const bookCard = createBookCard(book);
                     bookListElem.appendChild(bookCard);
+
+                    // Hide details initially
+                    const author = bookCard.querySelector('.author');
+                    const readCount = bookCard.querySelector('.read-count');
+                    const comment = bookCard.querySelector('.comment');
+                    
+                    author.hidden = true;
+                    readCount.hidden = true;
+                    comment.hidden = true;
+
+                    // Show details on click
+                    bookCard.addEventListener('click', () => {
+                        author.hidden = !author.hidden;
+                        readCount.hidden = !readCount.hidden;
+                        comment.hidden = !comment.hidden;
+                    });
                 });
             } else {
                 noBooksMessageElem.style.display = 'block';
@@ -188,18 +204,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         title.textContent = book.book_name;
 
         const author = document.createElement('p');
+        author.classList.add('author');
         author.innerHTML = `<strong>Author:</strong> ${book.book_author}`;
 
         const readCount = document.createElement('p');
+        readCount.classList.add('read-count');
         readCount.innerHTML = `<strong>Progress:</strong> ${book.read_count}`;
 
         const comment = document.createElement('p');
-        comment.classList.add('comment')
+        comment.classList.add('comment');
         comment.innerHTML = `<strong>Notes:</strong> ${book.comment || '<em>No comments yet.</em>'}`;
         if (book.comment && book.comment.length > 100) { // Truncate long comments display if desired, full view on edit
             comment.innerHTML = `<strong>Notes:</strong> ${book.comment.substring(0, 100)}...`;
         }
-
 
         const actionsDiv = document.createElement('div');
         actionsDiv.classList.add('book-actions');
@@ -210,7 +227,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         editButton.addEventListener('click', () => populateEditForm(book));
 
         const deleteButton = document.createElement('button');
-        deleteButton.classList.add('btn', 'btn-danger'); // You might want a specific .btn-danger style
+        deleteButton.classList.add('btn', 'btn-danger');
         deleteButton.style.backgroundColor = '#c0392b'; // Simple danger color
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => deleteBook(book.id, book.book_name));
