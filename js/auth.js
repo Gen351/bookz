@@ -22,14 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
             window.location.href = 'index.html';
         }
     });
-
+    
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = loginForm.email.value;
             const password = loginForm.password.value;
-            errorMessageElem.textContent = ''; // Clear previous errors
-
+            
             try {
                 const { data, error } = await supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
@@ -40,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
 
     if (signupForm) {
         signupForm.addEventListener('submit', async (e) => {
