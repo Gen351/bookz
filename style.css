@@ -184,7 +184,8 @@ header h1 {
     box-shadow: 0 2px 4px var(--shadow-color);
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Align content at the top */
+    justify-content: flex-start;
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Transition opacity and scale */
 }
 
 .book-card h3 {
@@ -192,13 +193,6 @@ header h1 {
     margin-top: 0;
     margin-bottom: 8px;
     font-size: 1.4em;
-}
-
-.book-card p {
-    margin: 5px 0;
-    font-size: 0.95em;
-    color: var(--text-color);
-    /* Remove flex-grow to prevent stretching */
 }
 
 .book-card .comment {
