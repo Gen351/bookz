@@ -11,6 +11,6 @@
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/config.js" },
-    { "src": "/(.*)",      "dest": "/public/index.html" }
+    { "src": "/(.*)",      "dest": "index.html" }
   ]
 }
