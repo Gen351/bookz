@@ -53,7 +53,7 @@ header h1 {
 
 
 .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 12px; /* Reduced space between form fields */
     text-align: left;
 }
 
@@ -185,7 +185,7 @@ header h1 {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    transition: opacity 0.5s ease, transform 0.5s ease; /* Transition opacity and scale */
+    align-items: flex-start;
 }
 
 .book-card h3 {
@@ -195,20 +195,35 @@ header h1 {
     font-size: 1.4em;
 }
 
-.book-card .comment {
-    font-style: italic;
-    background-color: #fefcf5;
-    padding: 8px;
-    border-radius: 4px;
+.book-card .comment-wrapper {
+    display: flex;
+    flex-direction: column;
     margin-top: 10px;
-    max-height: 100px;
+    width: 100%;  /* Ensure it takes up full width */
+}
+
+.book-card .comment-wrapper label {
+    margin-bottom: 5px; /* Label spacing */
+}
+
+.book-card .comment {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #fefcf5;
+    padding: 10px;
+    width: 100%; /* Full width of the card */
+    max-width: 100%; /* Ensure it's not wider than the card */
+    min-height: 100px; /* Set a fixed height */
+    box-sizing: border-box;
+    margin-top: 5px; /* Reduced margin between label and comment */
     overflow-y: auto;
+    resize: none; /* Disable dynamic resizing */
+    text-align: left; /* Align text to the left */
 }
 
 .book-actions {
-    margin-top: 15px;
+    margin-top: 12px;
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
 .book-actions .btn {
