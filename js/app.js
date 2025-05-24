@@ -173,16 +173,22 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const author = bookCard.querySelector('.author');
                     const readCount = bookCard.querySelector('.read-count');
                     const comment = bookCard.querySelector('.comment');
-                    
+                    const editBtn = bookCard.querySelector('.btn.btn-secondary');
+                    const deleteBtn = bookCard.querySelector('.btn.btn-danger');
+
                     author.hidden = true;
                     readCount.hidden = true;
                     comment.hidden = true;
+                    editBtn.hidden = true;
+                    deleteBtn.hidden = true;
 
                     // Show details on click
                     bookCard.addEventListener('click', () => {
                         author.hidden = !author.hidden;
                         readCount.hidden = !readCount.hidden;
                         comment.hidden = !comment.hidden;
+                        editBtn.hidden = !editBtn.hidden;
+                        deleteBtn.hidden = !deleteBtn.hidden;
                     });
                 });
             } else {
