@@ -172,12 +172,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                     // Hide details initially
                     const author = bookCard.querySelector('.author');
                     const readCount = bookCard.querySelector('.read-count');
+                    const commentLabel = bookCard.querySelector('.comment-label');
                     const comment = bookCard.querySelector('.comment');
                     const editBtn = bookCard.querySelector('.btn.btn-secondary');
                     const deleteBtn = bookCard.querySelector('.btn.btn-danger');
 
                     author.hidden = true;
                     readCount.hidden = true;
+                    commentLabel.hidden = true;
                     comment.hidden = true;
                     editBtn.hidden = true;
                     deleteBtn.hidden = true;
@@ -189,6 +191,66 @@ document.addEventListener('DOMContentLoaded', async () => {
                     
                         author.hidden = isDetailsVisible;
                         readCount.hidden = isDetailsVisible;
+                        commentLabel.hidden = isDetailsVisible;
+                        comment.hidden = isDetailsVisible;
+                        editBtn.hidden = isDetailsVisible;
+                        deleteBtn.hidden = isDetailsVisible;
+                    });
+                });
+            } else {
+                noBooksMessageElem.style.display = 'block';
+            }
+        } catch (error) {
+            console.error('Error loading books:', error.message);
+            loadingMessageElem.textContent = `Failed to load books: ${error.message}`;
+        }
+    }
+    
+    // Function to load books
+    async function loadBooks() {
+        if (!bookListElem || !loadingMessageElem || !noBooksMessageElem) return;
+    
+        bookListElem.innerHTML = ''; // Clear current list
+        loadingMessageElem.style.display = 'block';
+        noBooksMessageElem.style.display = 'none';
+    
+        try {
+            const { data: books, error } = await supabase
+                .from('books')
+                .select('*')
+                .eq('user_id', currentUser.id);
+    
+            if (error) throw error;
+    
+            loadingMessageElem.style.display = 'none';
+            if (books && books.length > 0) {
+                books.forEach(book => {
+                    const bookCard = createBookCard(book);
+                    bookListElem.appendChild(bookCard);
+    
+                    // Hide details initially
+                    const author = bookCard.querySelector('.author');
+                    const readCount = bookCard.querySelector('.read-count');
+                    const commentLabel = bookCard.querySelector('.comment-label'); // Fixed here
+                    const comment = bookCard.querySelector('.comment');
+                    const editBtn = bookCard.querySelector('.btn.btn-secondary');
+                    const deleteBtn = bookCard.querySelector('.btn.btn-danger');
+    
+                    author.hidden = true;
+                    readCount.hidden = true;
+                    commentLabel.hidden = true; // Hides the note label
+                    comment.hidden = true;
+                    editBtn.hidden = true;
+                    deleteBtn.hidden = true;
+    
+                    // Show details on click
+                    bookCard.addEventListener('click', () => {
+                        // Toggle the visibility of the details
+                        const isDetailsVisible = !author.hidden;
+    
+                        author.hidden = isDetailsVisible;
+                        readCount.hidden = isDetailsVisible;
+                        commentLabel.hidden = isDetailsVisible;
                         comment.hidden = isDetailsVisible;
                         editBtn.hidden = isDetailsVisible;
                         deleteBtn.hidden = isDetailsVisible;
@@ -208,51 +270,64 @@ document.addEventListener('DOMContentLoaded', async () => {
         const card = document.createElement('div');
         card.classList.add('book-card');
         card.dataset.id = book.id;
-
+    
         const title = document.createElement('h3');
         title.textContent = book.book_name;
-
+    
         const author = document.createElement('p');
         author.classList.add('author');
         author.innerHTML = `<strong>Author:</strong> ${book.book_author}`;
-
+    
         const readCount = document.createElement('p');
         readCount.classList.add('read-count');
         readCount.innerHTML = `<strong>Progress:</strong> ${book.read_count}`;
-
+    
+        // Create the "Note" label
+        const noteLabel = document.createElement('label');
+        noteLabel.textContent = 'Note';
+        noteLabel.classList.add('comment-label');
+    
+        // Create the comment container
+        const commentWrapper = document.createElement('div');
+        commentWrapper.classList.add('comment-wrapper');
+    
+        // Create the comment itself
         const comment = document.createElement('p');
         comment.classList.add('comment');
-        comment.innerHTML = `<strong>Notes:</strong> ${book.comment || '<em>No comments yet.</em>'}`;
-        if (book.comment && book.comment.length > 100) { // Truncate long comments display if desired, full view on edit
+        comment.innerHTML = `<strong></strong> ${book.comment || '<em>No comments yet.</em>'}`;
+        if (book.comment && book.comment.length > 100) {
             comment.innerHTML = `<strong>Notes:</strong> ${book.comment.substring(0, 100)}...`;
         }
-
+    
+        // Append label and comment to the wrapper
+        commentWrapper.appendChild(noteLabel);
+        commentWrapper.appendChild(comment);
+    
         const actionsDiv = document.createElement('div');
         actionsDiv.classList.add('book-actions');
-
+    
         const editButton = document.createElement('button');
         editButton.classList.add('btn', 'btn-secondary');
         editButton.textContent = 'Edit';
         editButton.addEventListener('click', () => populateEditForm(book));
-
+    
         const deleteButton = document.createElement('button');
         deleteButton.classList.add('btn', 'btn-danger');
         deleteButton.style.backgroundColor = '#c0392b'; // Simple danger color
         deleteButton.textContent = 'Delete';
         deleteButton.addEventListener('click', () => deleteBook(book.id, book.book_name));
-
+    
         actionsDiv.appendChild(editButton);
         actionsDiv.appendChild(deleteButton);
-
+    
         card.appendChild(title);
         card.appendChild(author);
         card.appendChild(readCount);
-        card.appendChild(comment);
+        card.appendChild(commentWrapper); // Append the comment wrapper
         card.appendChild(actionsDiv);
-
+    
         return card;
     }
-
     // Function to populate form for editing
     function populateEditForm(book) {
         document.getElementById('book-id').value = book.id;
