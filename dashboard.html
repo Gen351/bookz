@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Tracker - Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="container dashboard-container">
+        <header class="dashboard-header">
+            <h1>🍂 My Book Shelf</h1>
+            <div class="user-info">
+                <span id="user-email"></span>
+                <button id="logout-button" class="btn btn-secondary">Logout</button>
+            </div>
+        </header>
+
+        <main>
+            <section class="add-book-section">
+                <h2>Add a New Book</h2>
+                <form id="add-book-form">
+                    <input type="hidden" id="book-id"> <div class="form-group">
+                        <label for="book-name">Book Name:</label>
+                        <input type="text" id="book-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-author">Author:</label>
+                        <input type="text" id="book-author" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="read-count">Pages Read (or chapters, etc.):</label>
+                        <input type="number" id="read-count" value="0" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Comment/Notes:</label>
+                        <textarea id="comment" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn" id="save-book-button">Add Book</button>
+                    <button type="button" class="btn btn-secondary" id="cancel-edit-button" style="display:none;">Cancel Edit</button>
+                </form>
+                <p id="form-error-message" class="error-message"></p>
+            </section>
+
+            <section class="book-list-section">
+                <h2>Your Books</h2>
+                <div id="book-list" class="book-grid">
+                    </div>
+                <p id="loading-message">Loading books...</p>
+                <p id="no-books-message" style="display:none;">You haven't added any books yet. Add one above! 📖</p>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Book Tracker</p>
+        </footer>
+    </div>
+
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
