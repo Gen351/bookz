@@ -5,42 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Tracker - Login</title>
     <link rel="stylesheet" href="style.css">
-
-    <!-- 1) the library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/bundle.min.js"></script>
-
-    <!-- 2) Our little loader that fetches /api/config and calls createClient() -->
-    <script>
-    async function initSupabase() {
-        try {
-            const res = await fetch('/api/config');
-        if (!res.ok) throw new Error(`Config fetch failed: ${res.status}`);
-            const { url, key } = await res.json();
-        if (!url || !key) throw new Error('Missing Supabase URL or Key');
-        // Create the client and expose it
-            window.supabase = supabase.createClient(url, key);
-        } catch (err) {
-            console.error('⚠️ Supabase init error:', err);
-            alert('Unable to initialize Supabase. See console for details.');
-            throw err;
-        }
-    }
-
-    // Only once Supabase is in window.supabase do we load our app scripts:
-    initSupabase()
-        .then(() => {
-        const load = src => {
-            const s = document.createElement('script');
-            s.src = src;
-            document.body.appendChild(s);
-        };
-            load('/js/auth.js');
-            load('/js/app.js');
-        })
-        .catch(_ => {/* init failed; we already alerted */});
-    </script>
-
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container login-container">
@@ -81,5 +46,7 @@
         </footer>
     </div>
 
+    <script src="js/supabaseClient.js"></script>
+    <script src="js/auth.js"></script>
 </body>
 </html>
