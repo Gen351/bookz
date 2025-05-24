@@ -171,8 +171,9 @@ header h1 {
 
 .book-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr; /* One column */
+    grid-auto-rows: auto; /* Automatically adjust row heights */
+    gap: 10px; /* Optional gap between items */
 }
 
 .book-card {
@@ -183,7 +184,7 @@ header h1 {
     box-shadow: 0 2px 4px var(--shadow-color);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start; /* Align content at the top */
 }
 
 .book-card h3 {
@@ -197,7 +198,7 @@ header h1 {
     margin: 5px 0;
     font-size: 0.95em;
     color: var(--text-color);
-    flex-grow: 1; /* Pushes actions to bottom */
+    /* Remove flex-grow to prevent stretching */
 }
 
 .book-card .comment {
@@ -205,7 +206,7 @@ header h1 {
     background-color: #fefcf5;
     padding: 8px;
     border-radius: 4px;
-    margin-top:10px;
+    margin-top: 10px;
     max-height: 100px;
     overflow-y: auto;
 }
