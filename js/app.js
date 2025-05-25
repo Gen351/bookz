@@ -294,7 +294,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Create the comment itself
         const comment = document.createElement('p');
         comment.classList.add('comment');
-        comment.innerHTML = ${book.comment || '<em>No comments yet.</em>'}`;
+        comment.innerHTML = `${book.comment || '<em>No comments yet.</em>'}`;
         if (book.comment && book.comment.length > 100) {
             comment.innerHTML = `<strong>Notes:</strong> ${book.comment.substring(0, 100)}...`;
         }
